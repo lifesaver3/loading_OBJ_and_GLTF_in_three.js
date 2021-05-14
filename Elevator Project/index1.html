@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevator Test</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    
+<script src="/assets/three.js"></script>
+<script src="/assets/dat.gui.module.js"></script>
+<script src="/assets/OrbitControls.js"></script>
+<script type="module" src="/assets/GLTFLoader.js"></script>
+<script type="module">
+
+    import {GLTFLoader} from '/assets/GLTFLoader.js'
+    import { GUI } from '/assets/dat.gui.module.js'
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+    var renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setClearColor("#e5e5e5");
+    renderer.setSize(window.innerWidth,window.innerHeight);
+
+    document.body.appendChild(renderer.domElement);
+
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+
+        camera.updateProjectionMatrix();
+    })
+    
+    var light = new THREE.HemisphereLight(0xffffff, 0x000000, 10);
+      scene.add(light);
+      camera.position.set(5, -1, 8);
+      
+
+    var controls = new THREE.OrbitControls (camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.campingFactor = 0.25;
+      controls.enableZoom = true;
+    
+    var loader = new GLTFLoader();
+
+    var car;
+    loader.load("assets/ElevatorCar.gltf", function (gltf) {
+        car = gltf.scene;
+        scene.add(gltf.scene);
+    })
+
+    var shaft;
+    loader.load("assets/ElevatorShaft.gltf", function (gltf1) {
+        shaft = gltf1.scene;
+        scene.add(gltf1.scene);
+    })
+    
+      
+    
+
+var guiControls = new function (){
+
+    this.Floor = 0;
+  
+}
+
+var datGUI = new GUI ();
+
+datGUI.add (guiControls, 'Floor', 0, 1);
+
+
+
+function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+    
+var render = function () {
+    
+        requestAnimationFrame (render);
+        renderer.render (scene, camera);
+        car.position.y = 2.6*guiControls.Floor;
+}
+render();
+    </script>
+</body>
+</html>

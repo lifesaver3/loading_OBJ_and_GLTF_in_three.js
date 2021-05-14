@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>three.js webgl - elevator simulation</title>
+		
+  </head>
+
+
+  <body>
+
+    <div id="info">Simple Elevator Simulation</div>
+
+    <script src="assets/three.js"></script>
+    <script src="assets/OrbitControls.js"></script>
+    <script src="assets/MTLLoader.js"></script>
+    <script src="assets/OBJLoader.js"></script>
+    <script src="assets/three.module.js"></script>
+    <script src="assets/stats.module.js"></script>
+    <script src="assets/dat.gui.module.js"></script>
+    <script src="assets/GLTFLoader.js"></script>
+    <script>
+
+      // const params = {
+			// 	enableWind: true,
+			// 	showBall: false,
+			// 	// togglePins: togglePins
+			// };
+
+      // const gui = new GUI();
+			// 	gui.add( params, 'enableWind' ).name( 'Enable wind' );
+			// 	gui.add( params, 'showBall' ).name( 'Show ball' );
+			// 	gui.add( params, 'togglePins' ).name( 'Toggle pins' );
+
+      var scene = new THREE.Scene();
+
+      var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.01,
+        1000
+      );
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      
+var cube = new THREE.BoxGeometry (1,1,1);
+scene.add (cube);
+
+
+//       var mtlLoader = new THREE.MTLLoader();
+//       mtlLoader.setTexturePath('assets/');
+//       mtlLoader.setPath('assets/');
+//       mtlLoader.load('cgaxis_models_107_05_obj.mtl',function(materials) {
+//         materials.preload();
+        
+//         var objLoader = new THREE.OBJLoader();
+//         objLoader.setMaterials(materials);
+//         objLoader.setPath('assets/');
+//         objLoader.load('cgaxis_models_107_05_obj.obj',function(object){
+//           object.position.y -=60;
+//           scene.add(object);
+// 	});
+
+// });
+
+      scene.background = new THREE.Color(0x20B2AA);
+
+      var controls = new THREE.OrbitControls (camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.campingFactor = 0.25;
+      controls.enableZoom = true;
+
+      var light = new THREE.HemisphereLight(0xffffff, 0x000000, 5);
+      scene.add(light);
+
+      light.position =(0,1,0)
+
+      var light2 = new THREE.DirectionalLight(0xffffff, 0x000000, 20);
+      light2.castShadow = true;
+      scene.add(light2);
+
+      light2.position = (0,1,0)
+
+      camera.position.set = (0,0,0);
+      
+
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
+</html>
