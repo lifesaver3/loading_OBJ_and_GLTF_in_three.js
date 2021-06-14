@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>elevator animation test</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<style>
+			body {
+				background-color: #bfe3dd;
+				color: #000;
+			}
+
+			a {
+				color: #2983ff;
+			}
+		</style>
+	</head>
+
+	<body>   
+        <script src="assets/three.js"></script>
+        <script src="assets/OrbitControls.js"></script>
+        <script type="module">
+            import { GLTFLoader } from "./assets/GLTFLoader.js";
+
+            var scene = new THREE.Scene();
+
+            var camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.01,
+                1000
+            );
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var loader = new GLTFLoader();
+
+            //Background.
+
+            // scene.background = new THREE.Color(0x20B2AA);
+            scene.background = new THREE.CubeTextureLoader()
+                .setPath( 'assets/')
+                .load( [ 
+                'skyscraper.png',
+                'skyscraper.png',
+                'skyscraper.png',
+                'skyscraper.png',
+                'skyscraper.png',
+                'skyscraper.png'
+            ] );
+
+            //Orbit Controls for the camera.
+
+            var controls = new THREE.OrbitControls (camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.campingFactor = 0.25;
+            controls.enableZoom = true;
+
+            var light = new THREE.HemisphereLight(0xffffff, 0x000000, 6);
+            scene.add(light);
+            camera.position.set(0, 20, 40);
+            
+            var clock = new THREE.Clock();
+
+            //a mixer is reaquired for each animated model in the scene.
+
+            var mixer;  //For Elevator A
+            var mixer2;  //For Elevator B
+            var mixer3;  //For Elevator C
+            var mixer4;  //For Elevator D
+            var mixer5;  //For Elevator E
+            var mixer6;  //For Elevator F
+            var mixer7;  //For Elevator G
+            var mixer8;  //For Elevator H
+
+            loader.load( '/assets/Models/19floorsintherightplace.glb', function ( gltf ) {
+                var model = gltf.scene;
+                scene.add( model );
+            });
+
+            //Elevator A.
+            loader.load( '/assets/Animation/ElevatorA.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer = new THREE.AnimationMixer( model );
+                var action = mixer.clipAction( animations[ 0 ] ); 
+                action.play();
+            });
+            
+            //Elevator B.
+            loader.load( '/assets/Animation/ElevatorB.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer2 = new THREE.AnimationMixer( model );
+                var action = mixer2.clipAction( animations[ 0 ] ); 
+                action.play();
+            });
+
+            //Elevator c.
+            loader.load( '/assets/Animation/ElevatorC.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer3 = new THREE.AnimationMixer( model );
+                var action = mixer3.clipAction( animations[ 0 ] ); // access first animation clip
+                action.play();
+            });
+
+            //Elevator D.
+            loader.load( '/assets/Animation/ElevatorD.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer4 = new THREE.AnimationMixer( model );
+                var action = mixer4.clipAction( animations[ 0 ] ); // access first animation clip
+                action.play();
+            });
+
+            //Elevator E.
+            loader.load( '/assets/Animation/ElevatorE.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer5 = new THREE.AnimationMixer( model );
+                var action = mixer5.clipAction( animations[ 0 ] ); // access first animation clip
+                action.play();
+            });
+
+            //Elevator F.
+            loader.load( '/assets/Animation/ElevatorF.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer6 = new THREE.AnimationMixer( model );
+                var action = mixer6.clipAction( animations[ 0 ] ); // access first animation clip
+                action.play();
+            });
+
+            //Elevator G.
+            loader.load( '/assets/Animation/ElevatorG.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer7 = new THREE.AnimationMixer( model );
+                var action = mixer7.clipAction( animations[ 0 ] ); // access first animation clip
+                action.play();
+            });
+
+            //Elevator H.
+            loader.load( '/assets/Animation/ElevatorH.glb', function ( gltf ) {
+                var model = gltf.scene;
+                var animations = gltf.animations;
+                scene.add( model );
+                mixer8 = new THREE.AnimationMixer( model );
+                var action = mixer8.clipAction( animations[ 0 ] ); // access first animation clip
+                action.play();
+            });
+
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(window.innerWidth,window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                })  
+
+            var render = function () {
+    
+            requestAnimationFrame (render);
+            renderer.render (scene, camera);
+            var delta = clock.getDelta(); // clock is an instance of THREE.Clock
+            if ( mixer ) mixer.update( delta );
+            if ( mixer2 ) mixer2.update( delta );
+            if ( mixer3 ) mixer3.update( delta );
+            if ( mixer4 ) mixer4.update( delta );
+            if ( mixer5 ) mixer5.update( delta );
+            if ( mixer6 ) mixer6.update( delta );
+            if ( mixer7 ) mixer7.update( delta );
+            if ( mixer8 ) mixer8.update( delta );
+            }
+            render();
+          
+
+        </script>
+	</body>
+</html>
